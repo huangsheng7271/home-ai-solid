@@ -5,7 +5,7 @@ const App: Component = () => {
 
   return (
     <div>
-      <p class="header">Hello World</p>
+      <p class="header link">Hello World</p>
 
       <style jsx>{`
         .App {
