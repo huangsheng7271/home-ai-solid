@@ -26,7 +26,7 @@ interface MasonryOption {
 }
 
 const Masonry: Component<MasonryOption> = (props) => {
-  const mProps = mergeProps({
+  const mgProps = mergeProps({
     virtual: true,
     rowKey: 'id',
     gap: 15,
@@ -53,14 +53,14 @@ const Masonry: Component<MasonryOption> = (props) => {
       return 0
     }
     const cWidth = contentWidth()
-    if (cWidth >= mProps.itemMinWidth * 2) {
-      const count = Math.floor(cWidth / mProps.itemMinWidth)
-      if (mProps.maxColumnCount && count > mProps.maxColumnCount) {
-        return mProps.maxColumnCount
+    if (cWidth >= mgProps.itemMinWidth * 2) {
+      const count = Math.floor(cWidth / mgProps.itemMinWidth)
+      if (mgProps.maxColumnCount && count > mgProps.maxColumnCount) {
+        return mgProps.maxColumnCount
       }
       return count
     }
-    return mProps.minColumnCount
+    return mgProps.minColumnCount
   }
 
   // 每列距离顶部的距离
@@ -72,7 +72,7 @@ const Masonry: Component<MasonryOption> = (props) => {
       return 0
     }
     // 列之间的间隔
-    const gap = (columnCount() - 1) * mProps.gap
+    const gap = (columnCount() - 1) * mgProps.gap
 
     return Math.ceil((contentWidth() - gap) / columnCount())
   }
@@ -95,7 +95,7 @@ const Masonry: Component<MasonryOption> = (props) => {
       setItemSpaces([])
       return
     }
-    const length = mProps.items.length
+    const length = mgProps.items.length
     const spaces = new Array(length)
     const untrackItemSpaces = untrack(() => itemSpaces());
 
@@ -117,13 +117,13 @@ const Masonry: Component<MasonryOption> = (props) => {
 
       const columnIndex = getColumnIndex()
       // 计算元素的高度
-      const h = mProps.calcItemHeight(mProps.items[i], itemWidth())
+      const h = mgProps.calcItemHeight(mgProps.items[i], itemWidth())
       const top = columnsTop()[columnIndex]
-      const left = (itemWidth() + mProps.gap) * columnIndex
+      const left = (itemWidth() + mgProps.gap) * columnIndex
 
       const space: SpaceOption = {
         index: i,
-        item: mProps.items[i],
+        item: mgProps.items[i],
         column: columnIndex,
         top: top,
         left: left,
@@ -132,7 +132,7 @@ const Masonry: Component<MasonryOption> = (props) => {
       }
 
       // 累加当前列的高度
-      columnsTop()[columnIndex] += h + mProps.gap
+      columnsTop()[columnIndex] += h + mgProps.gap
       setColumnsTop(columnsTop())
       spaces[i] = space
     }
@@ -145,7 +145,7 @@ const Masonry: Component<MasonryOption> = (props) => {
     if (!length) {
       return []
     }
-    if (!mProps.virtual) {
+    if (!mgProps.virtual) {
       return itemSpaces()
     }
 
@@ -154,7 +154,7 @@ const Masonry: Component<MasonryOption> = (props) => {
 
     const tp = -contentTop() + parentTop
 
-    const [topPreloadScreenCount, bottomPreloadScreenCount] = mProps.preloadScreenCount
+    const [topPreloadScreenCount, bottomPreloadScreenCount] = mgProps.preloadScreenCount
     // 避免多次访问
     const innerHeight = content()?.parentElement?.clientHeight || 0
 
@@ -194,22 +194,22 @@ const Masonry: Component<MasonryOption> = (props) => {
     <div
       ref={setContent}
       style={{
-        "position": 'relative',
-        "will-change": 'height',
-        "height": `${Math.max(...columnsTop())}px`,
-        "padding": `${isNumber(mProps.padding) ? mProps.padding + 'px' : mProps.padding}`
+        "position":'relative',
+        "will-change":'height',
+        "height":`${Math.max(...columnsTop())}px`,
+        "padding":`${isNumber(mgProps.padding) ? mgProps.padding + 'px' : mgProps.padding}`
       }}
     >
       <For each={itemRenderList()}>{(data) =>
         <div
-          id={data.item[mProps.rowKey] ?? data.index}
+          id={data.item[mgProps.rowKey] ?? data.index}
           style={{
-            "position": 'absolute',
-            "content-visibility": 'auto',
-            "width": `${itemWidth()}px`,
-            "height": `${data.height}px`,
-            "transform": `translate(${data.left}px, ${data.top}px)`,
-            "contain-intrinsic-size": `${itemWidth()}px ${data.height}px`
+            "position":'absolute',
+            "content-visibility":'auto',
+            "width":`${itemWidth()}px`,
+            "height":`${data.height}px`,
+            "transform":`translate(${data.left}px, ${data.top}px)`,
+            "contain-intrinsic-size":`${itemWidth()}px ${data.height}px`
           }}
           data-index={data.index}
         >

@@ -1,45 +1,87 @@
-import type { Component } from "solid-js";
+import { Show, type Component } from "solid-js";
+import useApp from "./hooks/useApp";
+import useMasonry from "./hooks/useMasonry";
+import Masonry from "./components/ui/Masonry";
 
 const App: Component = () => {
-  
+  const { asideShow } = useApp()
+  const { data, calcItemHeight, backTop, masonryOption } = useMasonry();
+
 
   return (
-    <div>
-      <p class="header link">Hello World</p>
+    <div class="masonry-wrap">
+      <Masonry
+        virtual={masonryOption().virtual}
+        gap={masonryOption().gap}
+        padding={masonryOption().padding}
+        preloadScreenCount={[masonryOption().topPreloadScreenCount, masonryOption().bottomPreloadScreenCount]}
+        itemMinWidth={masonryOption().itemMinWidth}
+        maxColumnCount={masonryOption().maxColumnCount}
+        minColumnCount={masonryOption().minColumnCount}
+        items={data().list}
+        calcItemHeight={calcItemHeight}
+      >
+        {(item) =>
+          <article class="card">
+            <div class="cover">
+              <img src={item.url} alt="图片" />
+            </div>
+            <Show when={!masonryOption().onlyImage}>
+              <div class="body">
+                <h3>{item.title}</h3>
+              </div>
+            </Show>
+          </article>
+        }
+      </Masonry>
 
       <style jsx>{`
-        .App {
-          text-align: center;
-        }
-
-        .logo {
-          animation: logo-spin infinite 20s linear;
-          height: 40vmin;
-          pointer-events: none;
-        }
-
-        .header {
-          background-color: #282c34;
-          min-height: 100vh;
+        .card {
           display: flex;
           flex-direction: column;
+          width: 100%;
+          height: 100%;
+          background: white;
+          border-radius: 8px;
+          cursor: pointer;
+          overflow: hidden;
+        }
+        
+        .cover {
+          display: flex;
+          flex: 1;
+          flex-shrink: 0;
           align-items: center;
           justify-content: center;
-          font-size: calc(10px + 2vmin);
-          color: white;
+          width: 100%;
+          height: 100%;
+          background-color: #e3e8f7;
         }
-
-        .link {
-          color: #b318f0;
+        
+        .cover img {
+          display: block;
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
         }
-
-        @keyframes logo-spin {
-          from {
-            transform: rotate(0deg);
-          }
-          to {
-            transform: rotate(360deg);
-          }
+        
+        .card .body {
+          flex-shrink: 0;
+          box-sizing: border-box;
+          height: 72px;
+          padding: 12px;
+        }
+        
+        .card .body h3 {
+          margin: 0;
+          padding: 0;
+          font-weight: bolder;
+          font-size: 14px;
+        }
+        
+        .masonry-wrap{
+          overflow-x: hidden;
+          overflow-y: auto;
         }
       `}</style>
     </div>
