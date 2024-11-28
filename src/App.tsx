@@ -41,7 +41,7 @@ const App: Component = () => {
           flex-direction: column;
           width: 100%;
           height: 100%;
-          background: white;
+          background: #1d2129;
           border-radius: 8px;
           cursor: pointer;
           overflow: hidden;
@@ -55,7 +55,7 @@ const App: Component = () => {
           justify-content: center;
           width: 100%;
           height: 100%;
-          background-color: #e3e8f7;
+          background-color: #1d2129;
         }
         
         .cover img {
@@ -77,6 +77,7 @@ const App: Component = () => {
           padding: 0;
           font-weight: bolder;
           font-size: 14px;
+          color: white;
         }
         
         .masonry-wrap{
